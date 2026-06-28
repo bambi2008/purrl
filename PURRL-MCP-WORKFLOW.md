@@ -1,140 +1,114 @@
-# Purrl (Catelier) — MCP 全自动化工作流
+# Purrl — MCP 框架 v2（对齐六支柱）
 
-> AIGC 猫美学 + 定制 POD 独立站 | 生成 → 处理 → 上架 → 运营 → 收款
-
----
-
-## 🧩 MCP 链条架构
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Purrl MCP Pipeline                    │
-├──────────┬──────────┬──────────┬──────────┬─────────────┤
-│ 灵感搜集  │  AI生图   │  后期处理  │  电商运营  │   收款     │
-│          │          │          │          │           │
-│ stock-   │ image_   │ fal-     │ shopify  │ stripe    │
-│ images   │ generate │ mcp      │ mcp      │ mcp       │
-│          │          │          │          │           │
-│ Pexels   │ FAL via  │ 去背景    │ 产品管理  │ 支付处理   │
-│ 搜参考图  │ Nous订阅  │ 放大     │ 订单履约  │ 订阅账单   │
-│          │          │ 模型发现  │ 客户管理  │           │
-└──────────┴──────────┴──────────┴──────────┴───────────┘
-```
+> 2026-06-28 | 重新梳理：每个 MCP 工具映射到验证后的产品支柱
 
 ---
 
-## ⚙️ 已安装的 MCP 服务器
+## 一、产品支柱 → MCP 工具映射
 
-| 服务器 | 传输 | 工具数 | 状态 | 用途 |
-|--------|------|--------|------|------|
-| `fal` | stdio (npx) | 5 | ✅ Active | 生图/去背景/放大/TTS/模型列表 |
-| `stock-images` | stdio (npx) | 2 | ✅ Active | Pexels 搜图/下载 |
-| `stripe` | HTTP | 20+ | ✅ Active | 支付/订阅 (OAuth) |
-| `comfyui` | HTTP | 8+ | ✅ Active | ComfyUI 深度生图 (需本地启动) |
-| `shopify` | stdio | 36 | ⚠️ Disabled | 店铺管理 (需 Shopify 凭证) |
-| `shopops` | stdio | 12 | ⚠️ Disabled | 运营分析 (需 git clone 构建) |
-| `github` | stdio | 26 | ✅ Active | Git/Issue/PR 管理 |
+```
+完整商业闭环
+  AI短视频(获客) → 写真集(转化) → 真猫配饰(变现) → 3D雕塑(高客单)
+                                          ↓
+                                    数字孪生(留存)
+```
 
-### 配置位置
-`%LOCALAPPDATA%\hermes\config.yaml` → `mcp_servers:` 节点
-
-### 需要的 API Keys
-
-| Key | 用于 | 获取 |
-|-----|------|------|
-| `FAL_KEY` | fal-mcp 生图/去背景 | [fal.ai/dashboard/keys](https://fal.ai/dashboard/keys) |
-| `PEXELS_API_KEY` | stock-images 搜图 | [pexels.com/api](https://www.pexels.com/api/) 免费 |
-| Shopify Token | shopify MCP | Shopify Admin → 开发应用 |
-| Stripe OAuth | stripe MCP | 首次使用弹窗认证 |
+| 支柱 | 阶段 | 需要的能力 | MCP/工具 | 状态 |
+|------|------|-----------|----------|------|
+| **AI短视频** | MVP | 图生视频 | 可灵/Runway API（待接） | ❌ 未配 |
+| **写真集** | MVP | 文生图/图生图 | `image_generate`(FAL,Nous订阅) | ✅ 已验证 |
+| **写真集** | MVP | LoRA保脸 | FAL LoRA训练（待接） | ⚠️ 待配 |
+| **真猫配饰** | MVP | 毛色提取 | `vision_analyze` + 自写色板算法 | ✅ 可用 |
+| **真猫配饰** | MVP | 去背景做产品图 | `fal_remove_background` | ✅ 已配 |
+| **真猫配饰** | MVP | 上架/下单 | `shopify`(待启) + `stripe` | ⚠️ 待配 |
+| **真猫配饰** | MVP | POD履约 | Printful/1688（待接） | ❌ 未配 |
+| **3D雕塑** | Phase2 | 单图3D重建 | TripoSR/comfyui（待接） | ⚠️ comfyui需启 |
+| **3D雕塑** | Phase2 | 放大修模 | `fal_upscale_image` | ✅ 已配 |
+| **数字孪生** | Phase2 | 猫角色对话 | LLM(DeepSeek/MiniMax) | ✅ 可用 |
+| **数字孪生** | Phase2 | 猫声合成 | `fal_generate_speech`(Chatterbox) | ⚠️ 需本地启 |
+| 全局 | — | 灵感参考图 | `stock_images`(Pexels) | ⚠️ 缺key |
+| 全局 | — | 代码托管 | `github` | ✅ 已用 |
+| 全局 | — | 收款 | `stripe`(OAuth) | ✅ 已配 |
 
 ---
 
-## 🎯 工作流操作手册
+## 二、MCP 服务器清单（重新核对）
 
-### 1. 搜灵感参考图
-```
-直接说: "搜 10 张日系猫插画参考图"
-        "找极简风格猫的 reference"
-        "搜适合做手机壳图案的猫"
-```
-→ 自动调用 `mcp_stock_images_search_images`
+| 服务器 | 工具数 | 状态 | 对应支柱 |
+|--------|--------|------|----------|
+| `fal` | 5 | ✅ Active | 写真集/配饰图/3D放大 |
+| `image_generate`(内置) | 1 | ✅ Active | 写真集主力（Nous订阅FAL） |
+| `vision_analyze`(内置) | 1 | ✅ Active | 配饰毛色提取 |
+| `stripe` | 20+ | ✅ Active | 全局收款 |
+| `github` | 26 | ✅ Active | 全局托管 |
+| `comfyui` | 8+ | ⚠️ 需本地启 | 3D雕塑深度生成 |
+| `stock_images` | 2 | ⚠️ 缺Pexels key | 灵感参考图 |
+| `shopify` | 36 | ⚠️ Disabled缺店铺 | 配饰上架 |
+| `shopops` | 12 | ⚠️ Disabled | 运营分析 |
 
-### 2. AI 生成猫图案
-```
-直接说: "生成一张水墨风猫剪影，做 T 恤用"
-        "赛博朋克猫，深色背景"
-        "水彩风格猫脸，柔和色调"
-```
-→ 自动调用 `image_generate` (Hermes 内置，走 Nous FAL)
-
-### 3. 质量评估
-```
-直接说: "这张图适合做卫衣吗"
-        "评估印刷效果"
-```
-→ 自动调用 `vision_analyze`
-
-### 4. 下载素材
-```
-直接说: "把这些参考图都下载到 purrl/moodboard"
-```
-→ 自动调用 `mcp_stock_images_download_image`
-
-### 5. 查看可用模型
-```
-直接说: "FAL 现在有哪些生图模型"
-```
-→ 自动调用 `mcp_fal_list_models`
-
-### 6. 去背景 + 放大（需要 FAL_KEY 后可用）
-```
-直接说: "把这张产品图去背景"
-        "放大到 4K"
-```
-→ 自动调用 `mcp_fal_remove_background` / `mcp_fal_upscale_image`
-
-### 7. 上架 Shopify（需要店铺后可用）
-```
-直接说: "把这个图案创建为 Shopify 产品，定价 $29.99"
-```
-→ 自动调用 `mcp_shopify_*`
+> 可用模型：nano-banana-pro(推荐) / flux-2(常403,慎用)。去背景birefnet、放大clarity-upscaler均可用。
 
 ---
 
-## 🔄 完整自动化示例
+## 三、按 MVP 优先级排的待办
+
+### MVP 必须打通（获客→转化→变现闭环）
 
 ```
-用户: "做一套 3 张日系猫图案，准备上架 T 恤"
+1. AI短视频（获客）
+   [ ] 接入可灵(Kling)API — 图生视频
+   [ ] 水印系统（免费段带Purrl水印=传播）
+   [ ] 成本控制：免费1段低清
 
-Hermes:
-  1. stock-images 搜 "Japanese cat illustration minimal" → 5 张参考
-  2. image_generate 生成 3 张不同配色
-  3. vision_analyze 评估每张印刷效果
-  4. [店铺就绪后] shopify 创建 3 个产品
+2. 写真集（转化）
+   [✅] image_generate 已跑通（9张9分样本）
+   [ ] LoRA保脸训练管线（FAL）
+   [ ] 付费墙：3.9元解锁高清无水印
+
+3. 真猫配饰（变现）
+   [✅] vision_analyze 可提毛色
+   [ ] AI配色算法（毛色→项圈配色推荐）
+   [✅] fal_remove_background 做产品图
+   [ ] Printful/1688 POD对接
+   [ ] shopify 店铺 + stripe 收款
+```
+
+### Phase 2
+
+```
+4. 3D雕塑
+   [ ] comfyui 本地启动 + TripoSR
+   [ ] 猫毛重建质量测试（100张照片，看失败率）
+   [ ] POD 3D打印供应商对接
+
+5. 数字孪生
+   [ ] 猫角色 LLM prompt 系统
+   [ ] fal_generate_speech 猫声（可选）
 ```
 
 ---
 
-## 📂 导出目录
+## 四、关键缺口（阻塞MVP）
 
-```
-D:\hermes-workspace\exports\purrl-test\
-├── moodboard/        ← 参考图
-├── designs/          ← AI 生成的图案
-├── processed/        ← 去背景+放大后
-└── product-photos/   ← 上架用产品图
-```
-
----
-
-## 🚧 待办
-
-- [ ] 获取 FAL_KEY 激活去背景/放大
-- [ ] 创建 Shopify 店铺 → 激活 shopify MCP
-- [ ] 构建 shopops-mcp → git clone + npm build
-- [ ] 启动 ComfyUI → 激活深度生图能力
-- [ ] 配置 Stripe OAuth → 激活收款
+| 缺口 | 影响支柱 | 优先级 |
+|------|---------|--------|
+| 可灵/Runway 视频API未接 | AI短视频(获客) | 🔴 高 |
+| LoRA保脸管线未建 | 写真集差异化 | 🔴 高 |
+| POD供应链未对接 | 真猫配饰变现 | 🔴 高 |
+| shopify店铺未建 | 配饰上架 | 🟡 中 |
+| Pexels key缺失 | 灵感图（非必须） | 🟢 低 |
 
 ---
 
-*最后更新: 2026-06-27 | Hermes Agent + Nous Research*
+## 五、技术成本估算（每用户）
+
+| 操作 | 成本 | 备注 |
+|------|------|------|
+| 写真生成 | ~0.01元/张 | FAL极便宜 |
+| LoRA训练 | ~1-3元/猫 | 一次性 |
+| AI短视频 | ~1元/5秒段 | 可灵 |
+| 3D重建 | ~1-3元/次 | TripoSR |
+| 数字孪生对话 | ~0.001元/条 | DeepSeek便宜 |
+| 毛色提取 | ~0.01元 | vision |
+
+> 数字成本几乎可忽略。真正的成本在POD实物履约（配饰28-38元/3D 70-100元）。
