@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { products } from '@/data/products'
+import { products } from '../../data/products'
 
 export const metadata: Metadata = {
   title: 'Shop — Purrl',

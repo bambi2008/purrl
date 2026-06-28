@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useCatProfile } from '@/hooks/useCatProfile'
+import { useCatProfile } from '../hooks/useCatProfile'
 
 export default function ColorAnalysis() {
   const { profile, loading, analyze } = useCatProfile()
@@ -59,7 +59,7 @@ export default function ColorAnalysis() {
 
         {profile && (
           <div className="color-result">
-            {profile.palette.map((color) => (
+            {profile.palette.map((color: { name: string; hex: string; role: string }) => (
               <div key={color.hex} className="swatch-card">
                 <div className="swatch" style={{ backgroundColor: color.hex }} />
                 <h4>{color.name}</h4>

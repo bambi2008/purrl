@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react'
-import { CatProfile } from '@/types'
+import { CatProfile } from '../types/index'
 
 // Mock palette extraction — will be replaced by vision_analyze API
 function extractPalette(imageUrl: string): CatProfile {
