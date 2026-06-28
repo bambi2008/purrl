@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import ColorAnalysis from './ColorAnalysis'
+import ColorAnalysis from '../ColorAnalysis'
 
 export const metadata: Metadata = {
   title: 'Discover your cat\'s palette — Purrl',
