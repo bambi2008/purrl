@@ -1,26 +1,24 @@
+'use client'
+
 import { products } from '../data/products'
 
 export default function Products() {
   return (
-    <section className="section" id="shop">
+    <section className="products">
       <div className="container">
-        <div className="section-header">
-          <p className="label">The collection</p>
-          <h2>Designed at the Purrl Studio.</h2>
-          <p className="subtitle" style={{ margin: '16px auto 0' }}>
-            Each piece works alone — together, they tell a story.
-          </p>
+        <div className="products-header">
+          <p className="section-label">The Outing Set</p>
+          <h2>Everything your cat needs to step out.</h2>
         </div>
         <div className="product-grid">
-          {products.map((product) => (
+          {products.filter(p => p.category !== 'harness' && p.category !== 'bowtie').map(product => (
             <div key={product.id} className="product-card">
               <div className="product-image">
-                [ {product.category} — placeholder ]
+                [ {product.name} ]
               </div>
               <h3>{product.name}</h3>
+              <p className="desc">{product.description}</p>
               <p className="price">${product.price}</p>
-              <p className="description">{product.description}</p>
-              <button className="btn btn-primary">Add to cart</button>
             </div>
           ))}
         </div>
