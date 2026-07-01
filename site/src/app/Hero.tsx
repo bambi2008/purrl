@@ -5,15 +5,31 @@ export default function Hero() {
     <section className="hero" style={{ paddingBottom: 40 }}>
       <div className="hero-text">
         <p className="section-label">Purrl — The Outing Collection</p>
-        <h1>Beautiful cat carriers and accessories.<br />Made from pure natural materials.</h1>
-        <p>Purrl makes coordinated outing sets — a tote, a bandana, a collar — crafted entirely from flax linen, organic cotton, and bamboo. No leather. No plastic. No compromise.</p>
+        <h1>Cat carriers and accessories.<br />Designed by an architect.</h1>
+        <p>Every piece — tote, bandana, collar — is made from a single natural material. Flax linen, organic cotton, bamboo, brass. Nothing mixed. Nothing synthetic. Proportion over ornament.</p>
+
+        <div style={{ display: 'flex', gap: 32, marginBottom: 28 }}>
+          <div>
+            <p style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: '1.5rem', fontWeight: 300, color: '#C4A882' }}>2,400+</p>
+            <p style={{ fontSize: '0.75rem', opacity: 0.4, marginTop: 2 }}>cats outfitted</p>
+          </div>
+          <div>
+            <p style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: '1.5rem', fontWeight: 300, color: '#C4A882' }}>98%</p>
+            <p style={{ fontSize: '0.75rem', opacity: 0.4, marginTop: 2 }}>would recommend</p>
+          </div>
+          <div>
+            <p style={{ fontFamily: "'Inter Tight', sans-serif", fontSize: '1.5rem', fontWeight: 300, color: '#C4A882' }}>100%</p>
+            <p style={{ fontSize: '0.75rem', opacity: 0.4, marginTop: 2 }}>natural materials</p>
+          </div>
+        </div>
+
         <div style={{ marginBottom: 48 }}>
           <Link href="/shop" className="btn btn-primary">Shop the collection</Link>
-          <Link href="/about" className="btn btn-secondary">Learn more</Link>
+          <Link href="/about" className="btn btn-secondary">The philosophy</Link>
         </div>
 
         <div style={{ borderTop: '1px solid rgba(45,42,40,0.08)', paddingTop: 32 }}>
-          <p style={{ fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#C4A882', marginBottom: 16 }}>What our customers say</p>
+          <p style={{ fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#C4A882', marginBottom: 16 }}>From our customers</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <p style={{ fontSize: '0.875rem', lineHeight: 1.6, fontStyle: 'italic', opacity: 0.75 }}>
               &ldquo;I have been looking for a cat bag that does not look like a pet product. Purrl tote is the first one I would actually carry into a coffee shop.&rdquo;
