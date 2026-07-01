@@ -1,72 +1,64 @@
-import type { Metadata } from 'next'
-import { products } from '../../data/products'
 import Link from 'next/link'
-
-export const metadata: Metadata = {
-  title: 'Shop — Purrl',
-}
+import { products, bundles } from '../../data/products'
+import SiteNav from '../SiteNav'
+import SiteFooter from '../SiteFooter'
+import AddToCart from '../AddToCart'
 
 export default function ShopPage() {
   return (
     <>
-      <div className="container">
-        <div className="page-nav">
-          <Link href="/" className="logo">Purrl<span>.</span></Link>
-          <ul className="nav-links">
-            <li><Link href="/shop">Shop</Link></li>
-            <li><Link href="/about">About</Link></li>
-          </ul>
-        </div>
-      </div>
+      <div className="container"><SiteNav /></div>
 
-      <section className="products" style={{ paddingTop: 60 }}>
+      <section className="featured-section" style={{ paddingTop: 40 }}>
         <div className="container">
-          <div className="products-header">
+          <div className="featured-header">
             <p className="section-label">Collection</p>
             <h2>The Outing Set</h2>
+            <p className="sub">Free shipping over $120 · 30-day returns</p>
           </div>
+
           <div className="product-grid">
-            {products.map(product => (
-              <div key={product.id} className="product-card">
-                <div className="product-image">
-                  [ {product.name} ]
-                </div>
-                <h3>{product.name}</h3>
-                <p className="desc">{product.description}</p>
-                <p className="price">${product.price}</p>
+            {products.map(p => (
+              <div key={p.id} className="product-card">
+                <Link href={`/product/${p.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <div className="img-wrap"><img src={p.image} alt={p.name} /></div>
+                  <h3>{p.name}</h3>
+                  <p className="price">${p.price}</p>
+                </Link>
+                <AddToCart id={p.id} name={p.name} price={p.price} image={p.image} block />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <footer style={{ padding: '60px 0 40px', borderTop: '1px solid rgba(45,42,40,0.06)' }}>
+      <section className="bundle-section">
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: 60 }}>
-            <div>
-              <Link href="/" className="logo">Purrl<span>.</span></Link>
-              <p style={{ fontSize: '0.8125rem', opacity: 0.4, maxWidth: 260, lineHeight: 1.6, marginTop: 12 }}>
-                Every cat is a Purrl.
-              </p>
-            </div>
-            <div>
-              <h5 style={{ fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#C4A882', marginBottom: 20 }}>About</h5>
-              <ul style={{ listStyle: 'none' }}>
-                <li style={{ marginBottom: 12 }}><Link href="/about" style={{ textDecoration: 'none', color: '#2D2A28', fontSize: '0.8125rem', opacity: 0.5 }}>Philosophy</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h5 style={{ fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#C4A882', marginBottom: 20 }}>Connect</h5>
-              <ul style={{ listStyle: 'none' }}>
-                <li style={{ marginBottom: 12 }}><a href="mailto:hello@purrl.com" style={{ textDecoration: 'none', color: '#2D2A28', fontSize: '0.8125rem', opacity: 0.5 }}>hello@purrl.com</a></li>
-              </ul>
-            </div>
+          <div className="featured-header">
+            <p className="section-label">Save with a set</p>
+            <h2>Buy the outing, not the pieces.</h2>
           </div>
-          <p style={{ marginTop: 40, paddingTop: 24, borderTop: '1px solid rgba(45,42,40,0.06)', fontSize: '0.75rem', opacity: 0.3, textAlign: 'center' }}>
-            © {new Date().getFullYear()} Purrl
-          </p>
+          <div className="bundle-grid">
+            {bundles.map(b => (
+              <div key={b.id} className="bundle-card">
+                <div className="bundle-img"><img src={b.image} alt={b.name} /></div>
+                <div className="bundle-body">
+                  <h3>{b.name}</h3>
+                  <p className="bundle-desc">{b.description}</p>
+                  <p className="bundle-price">
+                    <strong>${b.price}</strong>
+                    <span className="was">${b.compareAt}</span>
+                    <span className="save">Save ${b.compareAt - b.price}</span>
+                  </p>
+                  <AddToCart id={b.id} name={b.name} price={b.price} image={b.image} label="Add set to bag" block />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </footer>
+      </section>
+
+      <SiteFooter />
     </>
   )
 }

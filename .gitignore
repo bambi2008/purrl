@@ -1,1 +1,5 @@
 node_modules\n.next\n.env.local\n.env
+.vercel/
+.next/
+node_modules/
+out/
