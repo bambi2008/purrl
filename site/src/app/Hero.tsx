@@ -5,8 +5,8 @@ export default function Hero() {
     <section className="hero" style={{ paddingBottom: 40 }}>
       <div className="hero-text">
         <p className="section-label">Purrl — The Outing Collection</p>
-        <h1>Cat carriers and accessories.<br />Designed by an architect.</h1>
-        <p>Every piece — tote, bandana, collar — is made from a single natural material. Flax linen, organic cotton, bamboo, brass. Nothing mixed. Nothing synthetic. Proportion over ornament.</p>
+        <h1>Refined street style<br />for going out with your cat.</h1>
+        <p>Cat carriers and accessories — tote, bandana, collar — in natural materials. Nothing cute. Nothing excessive.</p>
 
         <div style={{ display: 'flex', gap: 32, marginBottom: 28 }}>
           <div>
