@@ -12,6 +12,7 @@ export default function Home() {
       <div className="nav-float"><div className="container"><SiteNav /></div></div>
       <Hero />
       <TrustAnchor />
+      <Reveal><Reviews /></Reveal>
       <StoryScene image="/images/scene-2.png" align="left">
         <p className="scene-label">The material</p>
         <h2 className="scene-title">Linen you can<br />feel from across<br />the room.</h2>
@@ -29,7 +30,6 @@ export default function Home() {
         <p className="scene-text">Tote, bandana, and collar share a single natural tone — designed to be worn as a set, not assembled by accident.</p>
       </StoryScene>
       <Reveal><BundleSection /></Reveal>
-      <Reveal><Reviews /></Reveal>
       <Reveal><StatsBar /></Reveal>
       <SiteFooter />
     </>

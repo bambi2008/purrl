@@ -3,6 +3,7 @@ import { products, bundles } from '../../data/products'
 import SiteNav from '../SiteNav'
 import SiteFooter from '../SiteFooter'
 import AddToCart from '../AddToCart'
+import Reveal from '../Reveal'
 
 export default function ShopPage() {
   return (
@@ -58,7 +59,60 @@ export default function ShopPage() {
         </div>
       </section>
 
+      <Reveal><Reviews /></Reveal>
+      <Reveal><StatsBar /></Reveal>
+
       <SiteFooter />
     </>
+  )
+}
+
+function Reviews() {
+  const reviews = [
+    { text: '"I have been looking for a cat bag that does not look like a pet product. This is the first one I would actually carry into a coffee shop."', author: 'Sarah K.', city: 'Brooklyn, NY' },
+    { text: '"No synthetic smell, no plastic hardware. My cat fell asleep in it on our first walk. The linen is so much softer than I expected."', author: 'James L.', city: 'Portland, OR' },
+    { text: '"Finally a cat brand without leather. The collar broke away safely when it caught on a branch — safety first, still beautiful."', author: 'Maya R.', city: 'London, UK' },
+  ]
+  return (
+    <section className="reviews-section">
+      <div className="container">
+        <div className="reviews-header">
+          <div className="stars">★★★★★</div>
+          <h2>Still thinking? 98% would recommend.</h2>
+        </div>
+        <div className="reviews-grid">
+          {reviews.map((r, i) => (
+            <div className="review-card" key={i}>
+              <div className="r-stars">★★★★★</div>
+              <p className="r-text">{r.text}</p>
+              <p className="r-author"><strong>{r.author}</strong> — {r.city}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function StatsBar() {
+  const stats = [
+    { num: '2,400+', lbl: 'Cats outfitted' },
+    { num: '4.9 / 5', lbl: 'Average rating' },
+    { num: '98%', lbl: 'Would recommend' },
+    { num: '100%', lbl: 'Natural materials' },
+  ]
+  return (
+    <section className="stats-bar">
+      <div className="container">
+        <div className="stats-bar-inner">
+          {stats.map((s, i) => (
+            <div className="stat-block" key={i}>
+              <div className="num">{s.num}</div>
+              <div className="lbl">{s.lbl}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   )
 }
