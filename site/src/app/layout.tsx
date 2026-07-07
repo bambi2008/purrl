@@ -8,8 +8,8 @@ const cardo = Cardo({ subsets: ['latin'], weight: ['400'], variable: '--font-car
 const figtree = Figtree({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-figtree' })
 
 export const metadata: Metadata = {
-  title: 'Purrl — Every cat is a Purrl.',
-  description: 'Refined street style for going out with your cat. Cat carriers and accessories in pure natural materials.',
+  title: 'Purrl - Elegant Outings With Your Cat',
+  description: 'An elegant life, shared with your cat. Linen carriers and coordinated accessories in pure natural materials.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
