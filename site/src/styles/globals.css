@@ -923,6 +923,7 @@ footer { padding: 40px 0; border-top: 1px solid var(--border-light); }
 }
 
 .lifestyle-grid h2,
+.belief-grid h2,
 .memory-copy h2,
 .ritual-section h2,
 .principles-section h2,
@@ -939,6 +940,26 @@ footer { padding: 40px 0; border-top: 1px solid var(--border-light); }
   color: var(--fg-muted);
   line-height: 1.8;
   font-size: 1rem;
+}
+
+.belief-section {
+  padding: 90px 0;
+  background: linear-gradient(135deg, rgba(169, 152, 67, 0.1), rgba(215, 227, 234, 0.46)), var(--bg-alt);
+}
+
+.belief-grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.42fr) minmax(300px, 0.9fr) minmax(280px, 0.72fr);
+  gap: 42px;
+  align-items: end;
+}
+
+.belief-grid p:last-child {
+  font-family: 'Figtree', sans-serif;
+  color: var(--fg-muted);
+  line-height: 1.8;
+  font-size: 1rem;
+  max-width: 620px;
 }
 
 .memory-section {
@@ -1117,6 +1138,7 @@ footer { padding: 40px 0; border-top: 1px solid var(--border-light); }
 
 @media (max-width: 900px) {
   .lifestyle-grid,
+  .belief-grid,
   .memory-grid,
   .material-grid,
   .palette-grid {

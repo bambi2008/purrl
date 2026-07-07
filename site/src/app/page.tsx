@@ -12,6 +12,7 @@ export default function Home() {
       <Hero />
       <TrustAnchor />
       <Reveal><LifestyleIntro /></Reveal>
+      <Reveal><BeliefSection /></Reveal>
       <Reveal><FounderStory /></Reveal>
       <Reveal><OutingRitual /></Reveal>
       <Reveal><ProductInterlude /></Reveal>
@@ -51,6 +52,22 @@ function LifestyleIntro() {
           Most pet products treat going out as transportation. Purrl treats it as a scene:
           a refined woman, a composed cat, a linen tote, a collar and bandana in one quiet palette.
           Not cute. Not loud. Not childish. Simply elegant.
+        </p>
+      </div>
+    </section>
+  )
+}
+
+function BeliefSection() {
+  return (
+    <section className="belief-section">
+      <div className="container belief-grid">
+        <p className="section-label">The belief</p>
+        <h2>A cat does not need danger to experience the world. A cat needs protected freedom.</h2>
+        <p>
+          Home should be a sanctuary, not a cage. Outside should be an experience, not a risk.
+          Purrl is made for the elegant middle: a way to let a cat see, smell, listen and belong
+          beside the woman who loves her, without asking either of them to give up safety or grace.
         </p>
       </div>
     </section>
